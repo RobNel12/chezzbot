@@ -17,6 +17,11 @@ initial_cogs = ["cogs.rcon", "cogs.detection", "cogs.commands"]
 @bot.event
 async def on_ready():
     print(f"✅ Logged in as {bot.user}")
+    try:
+        synced = await bot.tree.sync()
+        print(f"🌐 Synced {len(synced)} slash commands")
+    except Exception as e:
+        print(f"Slash command sync failed: {e}")
 
 async def main():
     for cog in initial_cogs:
