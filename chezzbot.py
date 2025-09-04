@@ -2,17 +2,15 @@ import os
 import discord
 from discord.ext import commands
 from dotenv import load_dotenv
+import asyncio
 
-# Load .env
 load_dotenv()
-
 TOKEN = os.getenv("DISCORD_TOKEN")
 
 intents = discord.Intents.default()
 bot = commands.Bot(command_prefix="!", intents=intents)
 
-# Load cogs
-initial_cogs = ["cogs.rcon", "cogs.detection", "cogs.commands"]
+INITIAL_COGS = ["cogs.rcon", "cogs.detection", "cogs.commands"]
 
 @bot.event
 async def on_ready():
@@ -24,10 +22,9 @@ async def on_ready():
         print(f"Slash command sync failed: {e}")
 
 async def main():
-    for cog in initial_cogs:
-        await bot.load_extension(cog)
+    for ext in INITIAL_COGS:
+        await bot.load_extension(ext)
     await bot.start(TOKEN)
 
 if __name__ == "__main__":
-    import asyncio
     asyncio.run(main())
